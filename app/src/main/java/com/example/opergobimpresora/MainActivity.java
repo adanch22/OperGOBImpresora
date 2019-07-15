@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        BtnConexion = (Button) this.findViewById(R.id.Conected);
+        BtnConexion = (Button) this.findViewById(R.id.Conectar );
         BtnConexion.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
