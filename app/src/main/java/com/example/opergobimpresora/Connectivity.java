@@ -40,6 +40,12 @@ public class Connectivity extends AppCompatActivity {
 
         statusField = (TextView) this.findViewById(R.id.statusText);
         btRadioButton = (RadioButton) this.findViewById(R.id.bluetoothRadio);
+        btRadioButton.setChecked(true);
+        if (btRadioButton.isChecked() == true) {
+            toggleEditField(macAddress, true);
+        } else {
+            toggleEditField(macAddress, false);
+        }
         testButton = (Button) this.findViewById(R.id.testButton);
         testButton.setOnClickListener(new View.OnClickListener() {
 
@@ -193,7 +199,7 @@ public class Connectivity extends AppCompatActivity {
         try {
             byte[] configLabel = getConfigLabel();//byte[] configLabel = getConfigLabelPrueba();
             printerConnection.write(configLabel);
-            setStatus("Enviando Datos", Color.BLUE);
+            setStatus("Enviando Datos...",  Color.BLUE);
             DemoSleeper.sleep(1500);
             if (printerConnection instanceof BluetoothConnection) {
                 String friendlyName = ((BluetoothConnection) printerConnection).getFriendlyName();
@@ -207,20 +213,6 @@ public class Connectivity extends AppCompatActivity {
         }
     }
 
-    /*
-     * Returns the command for a test label depending on the printer control language
-     * The test label is a box with the word "TEST" inside of it
-     *
-     * _________________________
-     * |                       |
-     * |                       |
-     * |        TEST           |
-     * |                       |
-     * |                       |
-     * |_______________________|
-     *
-     *
-     */
 
     private byte[] getConfigLabel() {
         PrinterLanguage printerLanguage = printer.getPrinterControlLanguage();
@@ -228,7 +220,18 @@ public class Connectivity extends AppCompatActivity {
         byte[] configLabel = null;
         if (printerLanguage == PrinterLanguage.ZPL) {
             //configLabel = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ".getBytes();
-            configLabel = "^XA^FO17,15^ADN, 11, 12^FD EOS SOLUCIONES^FS^FO17, 60^ADN, 11, 7^FD Prueba  de impresion ^FS^FO17, 120^ADN, 11, 7^BCN, 80, Y, Y, N^FD *1-3-43* ^FS ^FO17, 250^ADN, 11, 7^FD Desarrollador: adan chavez  ^FS ^FO17, 300^ADN, 11, 7^FD Sistema OperGOB ^FS ^FO17, 400^ADN, 11, 7^FD Fin de prueba de impresion^FS ^XZ ".getBytes();
+            String tmpHeader =
+                    "^XA" +
+                    "^PON^PW400^MNN^LL%d^LH0,0" + "\r\n" +
+                    "^FO50,50" + "\r\n" + "^A0,N,70,70" + "\r\n" + "^FD Municipio de Reynosa" + "\r\n" +
+                    "^FO50,130" + "\r\n" + "^A0,N,35,35" + "\r\n" + "^FD Direccion de Inspeccion y vigilancia^FS" + "\r\n" +
+                    "^FO50,180" + "\r\n" + "^A0,N,25,25" + "\r\n" + "^FD Cajero:^FS" + "\r\n" +
+                    "^FO225,180" + "\r\n" + "^A0,N,25,25" + "\r\n" + "^FD OPERGOB^FS" + "\r\n" +
+                    "^FO50,220" + "\r\n" + "^A0,N,25,25" + "\r\n" + "^FDADAN CHAVEZ OLIVERA^FS" + "\r\n" +
+                   // "^FO225,220" + "\r\n" + "^A0,N,25,25" + "\r\n" + "^FD%s^FS" + "\r\n" +
+                    "^FO50,300" + "\r\n" + "^GB350,5,5,B,0^FS"  + "^XZ";
+            configLabel = tmpHeader.getBytes();
+            //configLabel = "^XA^FO17,15^ADN, 11, 12^FD EOS SOLUCIONES^FS^FO17, 60^ADN, 11, 7^FD Prueba  de impresion ^FS^FO17, 120^ADN, 11, 7^BCN, 80, Y, Y, N^FD *1-3-43* ^FS ^FO17, 250^ADN, 11, 7^FD Desarrollador: adan chavez  ^FS ^FO17, 300^ADN, 11, 7^FD Sistema OperGOB ^FS ^FO17, 400^ADN, 11, 7^FD Fin de prueba de impresion^FS ^XZ ".getBytes();
         } else if (printerLanguage == PrinterLanguage.CPCL) {
             String cpclConfigLabel = "! 0 200 200 406 1\r\n" + "ON-FEED IGNORE\r\n" + "BOX 20 20 380 380 8\r\n" + "T 0 6 137 177 TEST\r\n" + "PRINT\r\n";
             configLabel = cpclConfigLabel.getBytes();
