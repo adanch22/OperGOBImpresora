@@ -18,6 +18,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     Button BtnConexion;
+    Button BtnImpresion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         BtnConexion = (Button) this.findViewById(R.id.Conectar );
+        BtnImpresion = (Button) this.findViewById(R.id.Imprimur );
         BtnConexion.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -32,6 +34,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
+
+        BtnImpresion.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), ConectivitySinEstatus.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

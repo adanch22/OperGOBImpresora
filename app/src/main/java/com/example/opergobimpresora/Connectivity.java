@@ -2,9 +2,11 @@ package com.example.opergobimpresora;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,17 @@ import com.zebra.sdk.printer.ZebraPrinter;
 import com.zebra.sdk.printer.ZebraPrinterFactory;
 import com.zebra.sdk.printer.ZebraPrinterLanguageUnknownException;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 public class Connectivity extends AppCompatActivity {
     // ------ variables ---------------->
     private Connection printerConnection;
@@ -29,6 +42,7 @@ public class Connectivity extends AppCompatActivity {
     private TextView statusField;
     private EditText macAddress, ipDNSAddress, portNumber;
     private Button testButton;
+    private FileInputStream fis;
     // ------ variables ---------------->
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +134,7 @@ public class Connectivity extends AppCompatActivity {
 
     //Conectar con impresora
     public ZebraPrinter connect() {
-        setStatus("Connecting...", Color.YELLOW);
+        setStatus("Conectando...", Color.YELLOW);
         printerConnection = null;
         if (isBluetoothSelected()) {
             printerConnection = new BluetoothConnection(getMacAddressFieldText());
@@ -141,7 +155,7 @@ public class Connectivity extends AppCompatActivity {
             printerConnection.open();
             setStatus("Conectando...", Color.GREEN);
         } catch (ConnectionException e) {
-            setStatus("Comm Error! Disconnecting", Color.RED);
+            setStatus("Error! Desconectando...", Color.RED);
             DemoSleeper.sleep(1000);
             disconnect();
         }
@@ -151,16 +165,16 @@ public class Connectivity extends AppCompatActivity {
         if (printerConnection.isConnected()) {
             try {
                 printer = ZebraPrinterFactory.getInstance(printerConnection);
-                setStatus("Determining Printer Language", Color.YELLOW);
+                setStatus("Buscando Lenguaje de Impresora", Color.YELLOW);
                 PrinterLanguage pl = printer.getPrinterControlLanguage();
-                setStatus("Printer Language " + pl, Color.BLUE);
+                setStatus("Lenguaje " + pl, Color.BLUE);
             } catch (ConnectionException e) {
-                setStatus("Unknown Printer Language", Color.RED);
+                setStatus("Lenguaje de Impresora Desconocido", Color.RED);
                 printer = null;
                 DemoSleeper.sleep(1000);
                 disconnect();
             } catch (ZebraPrinterLanguageUnknownException e) {
-                setStatus("Unknown Printer Language", Color.RED);
+                setStatus("Lenguaje de Impresora Desconocido", Color.RED);
                 printer = null;
                 DemoSleeper.sleep(1000);
                 disconnect();
@@ -172,13 +186,13 @@ public class Connectivity extends AppCompatActivity {
 
     public void disconnect() {
         try {
-            setStatus("Disconnecting", Color.RED);
+            setStatus("Desconectando", Color.RED);
             if (printerConnection != null) {
                 printerConnection.close();
             }
-            setStatus("Not Connected", Color.RED);
+            setStatus("No Conectado", Color.RED);
         } catch (ConnectionException e) {
-            setStatus("COMM Error! Disconnected", Color.RED);
+            setStatus("Error! Desconectando", Color.RED);
         } finally {
             enableTestButton(true);
         }
@@ -218,9 +232,43 @@ public class Connectivity extends AppCompatActivity {
         PrinterLanguage printerLanguage = printer.getPrinterControlLanguage();
 
         byte[] configLabel = null;
+
         if (printerLanguage == PrinterLanguage.ZPL) {
+            //String texto = "^XA^FO17,15^ADN, 11, 12^FD VACIO...^FS^XZ";
+            String lectura = "";//"^XA^FO15,15^ADN, 10, 10^FD ERROR DE LECTURA(M.INTERNA)...^FS^XZ";
+
+            try {
+                URLConnection conn = new URL("http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/JLCASTIL/ImprimirCUC.txt").openConnection();
+                InputStream in = conn.getInputStream();
+                lectura = readStream(in);
+            } catch (MalformedURLException e) {
+                Log.w("", "MALFORMED URL EXCEPTION");
+                lectura = "^XA^FO15,15^ADN, 10, 10^FD ERROR DE LECTURA...^FS^XZ";
+            } catch (IOException e) {
+                Log.w(e.getMessage(), e);
+                lectura = "^XA^FO15,15^ADN, 10, 10^FD ERROR DE LECTURA...^FS^XZ";
+            }
+/*
+            FileInputStream fileInputStream = null;
+            try {
+                fileInputStream = getApplicationContext().openFileInput("ImprimirCUC.txt");
+                InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                StringBuilder stringBuilder= new StringBuilder();
+                while ((lectura = bufferedReader.readLine()) != null){
+                    stringBuilder.append(lectura).append("\n");
+                }
+            } catch (FileNotFoundException e) {
+                lectura = "^XA^FO15,15^ADN, 10, 10^FD ERROR DE LECTURA(M.INTERNA)...^FS^XZ";
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
+            configLabel = lectura.getBytes();
             //configLabel = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ".getBytes();
-            String tmpHeader =
+            /*String tmpHeader =
                     "^XA" +
                     "^PON^PW400^MNN^LL%d^LH0,0" + "\r\n" +
                     "^FO50,50" + "\r\n" + "^A0,N,70,70" + "\r\n" + "^FD Municipio de Reynosa" + "\r\n" +
@@ -230,13 +278,28 @@ public class Connectivity extends AppCompatActivity {
                     "^FO50,220" + "\r\n" + "^A0,N,25,25" + "\r\n" + "^FDADAN CHAVEZ OLIVERA^FS" + "\r\n" +
                    // "^FO225,220" + "\r\n" + "^A0,N,25,25" + "\r\n" + "^FD%s^FS" + "\r\n" +
                     "^FO50,300" + "\r\n" + "^GB350,5,5,B,0^FS"  + "^XZ";
-            configLabel = tmpHeader.getBytes();
+            configLabel = tmpHeader.getBytes();*/
             //configLabel = "^XA^FO17,15^ADN, 11, 12^FD EOS SOLUCIONES^FS^FO17, 60^ADN, 11, 7^FD Prueba  de impresion ^FS^FO17, 120^ADN, 11, 7^BCN, 80, Y, Y, N^FD *1-3-43* ^FS ^FO17, 250^ADN, 11, 7^FD Desarrollador: adan chavez  ^FS ^FO17, 300^ADN, 11, 7^FD Sistema OperGOB ^FS ^FO17, 400^ADN, 11, 7^FD Fin de prueba de impresion^FS ^XZ ".getBytes();
         } else if (printerLanguage == PrinterLanguage.CPCL) {
             String cpclConfigLabel = "! 0 200 200 406 1\r\n" + "ON-FEED IGNORE\r\n" + "BOX 20 20 380 380 8\r\n" + "T 0 6 137 177 TEST\r\n" + "PRINT\r\n";
             configLabel = cpclConfigLabel.getBytes();
         }
         return configLabel;
+    }
+ // Funcion para leer
+    public String readStream(InputStream in) throws IOException {
+        BufferedReader r = null;
+        r = new BufferedReader(new InputStreamReader(in));
+        StringBuilder total = new StringBuilder();
+        String line;
+        while ((line = r.readLine()) != null) {
+            total.append(line);
+        }
+        if (r != null) {
+            r.close();
+        }
+        in.close();
+        return total.toString();
     }
 
 }

@@ -30,15 +30,16 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
             android:layout_marginLeft="10dp"
-            android:text="Impresión/Conexión"/>
+            android:text="Impresión con Estatus"/>
 
         <Button
+            android:id="@+id/Imprimur"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:text="Configuración"/>
+            android:text="Impresión sin Estatus"/>
     </LinearLayout>
 
 
