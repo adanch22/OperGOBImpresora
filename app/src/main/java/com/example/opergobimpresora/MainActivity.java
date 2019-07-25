@@ -26,19 +26,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         BtnConexion = (Button) this.findViewById(R.id.Conectar );
-        BtnImpresion = (Button) this.findViewById(R.id.Imprimur );
-        BtnConexion.setOnClickListener(new View.OnClickListener() {
+        Intent intent = new Intent (this, Connectivity.class);
+        startActivityForResult(intent, 0);
 
+        BtnConexion.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), Connectivity.class);
-                startActivityForResult(intent, 0);
-            }
-        });
-
-        BtnImpresion.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), ConectivitySinEstatus.class);
                 startActivityForResult(intent, 0);
             }
         });
