@@ -40,7 +40,7 @@ public class Connectivity extends AppCompatActivity {
     private RadioButton btRadioButton;
     private ZebraPrinter printer;
     private TextView statusField;
-    private EditText macAddress, ipDNSAddress, portNumber;
+    private EditText macAddress, ipDNSAddress, portNumber, claveUsuario;
     private Button testButton;
     private FileInputStream fis;
 
@@ -54,6 +54,7 @@ public class Connectivity extends AppCompatActivity {
         setContentView(R.layout.activity_connectivity);
 
         macAddress = (EditText) this.findViewById(R.id.macInput);
+        claveUsuario = (EditText) this.findViewById(R.id.Usuario);
         macAddress.setText(SettingsHelper.getBluetoothAddress(this));
 
         statusField = (TextView) this.findViewById(R.id.statusText);
@@ -68,8 +69,10 @@ public class Connectivity extends AppCompatActivity {
         testButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), URL, Toast.LENGTH_SHORT).show();
                 new Thread(new Runnable() {
                     public void run() {
+
                         enableTestButton(false);
                         Looper.prepare();
                         doConnectionTest();
@@ -102,14 +105,16 @@ public class Connectivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroupTipoApp, int checkedId) {
                 if (checkedId == R.id.ComercioRadio) {
                     TipoTicket = 1;
-                    Toast.makeText(getApplicationContext(), "ticket de comercio", Toast.LENGTH_SHORT).show();
+                    String claveUsuarioTexto = claveUsuario.getText().toString();
+                    Toast.makeText(getApplicationContext(), "ticket de comercio: " + claveUsuarioTexto, Toast.LENGTH_SHORT).show();
                     // toggleEditField(macAddress, true);
                    /*
                     toggleEditField(portNumber, false);
                     toggleEditField(ipDNSAddress, false);*/
                 } else {
                     TipoTicket = 2;
-                    Toast.makeText(getApplicationContext(), "ticket de Transito", Toast.LENGTH_SHORT).show();
+                    String claveUsuarioTexto = claveUsuario.getText().toString();
+                    Toast.makeText(getApplicationContext(), "ticket de Transito: "+ claveUsuarioTexto, Toast.LENGTH_SHORT).show();
                    /*  toggleEditField(portNumber, true);
                     toggleEditField(ipDNSAddress, true);*/
                     // toggleEditField(macAddress, false);
