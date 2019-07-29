@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zebra.sdk.comm.BluetoothConnection;
 import com.zebra.sdk.comm.Connection;
@@ -42,6 +43,10 @@ public class Connectivity extends AppCompatActivity {
     private EditText macAddress, ipDNSAddress, portNumber;
     private Button testButton;
     private FileInputStream fis;
+
+    private Integer TipoTicket = 1;
+    private String URL = "";
+
     // ------ variables ---------------->
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,27 @@ public class Connectivity extends AppCompatActivity {
                 }
             }
         });
+
+        RadioGroup radioGroupTipoApp = (RadioGroup) this.findViewById(R.id.radioGroupTipoApp);
+        radioGroupTipoApp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup radioGroupTipoApp, int checkedId) {
+                if (checkedId == R.id.ComercioRadio) {
+                    TipoTicket = 1;
+                    Toast.makeText(getApplicationContext(), "ticket de comercio", Toast.LENGTH_SHORT).show();
+                    // toggleEditField(macAddress, true);
+                   /*
+                    toggleEditField(portNumber, false);
+                    toggleEditField(ipDNSAddress, false);*/
+                } else {
+                    TipoTicket = 2;
+                    Toast.makeText(getApplicationContext(), "ticket de Transito", Toast.LENGTH_SHORT).show();
+                   /*  toggleEditField(portNumber, true);
+                    toggleEditField(ipDNSAddress, true);*/
+                    // toggleEditField(macAddress, false);
+                }
+            }
+        });
+
     }
 
     private void toggleEditField(EditText editText, boolean set) {
@@ -237,7 +263,18 @@ public class Connectivity extends AppCompatActivity {
             String lectura = "";//"^XA^FO15,15^ADN, 10, 10^FD ERROR DE LECTURA(M.INTERNA)...^FS^XZ";
 
             try {
-                URLConnection conn = new URL("http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/JLCASTIL/ImprimirCUC.txt").openConnection();
+                //URLConnection conn = new URL("http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/JLCASTIL/ImprimirCUC.txt").openConnection();
+                if (TipoTicket == 1){
+                    URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD/CodeZPL/JLCASTIL/ImprimirCUC.txt";
+                   // Toast.makeText(this, "ticket de comercio", Toast.LENGTH_SHORT).show();
+                }else{
+                    //URLConnection conn = new URL("http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/c/ImprimirCUC.txt").openConnection();
+                    URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/USU1/ImprimirCUC.txt";
+                   // Toast.makeText(this, "ticket de Transito", Toast.LENGTH_SHORT).show();
+                }
+
+                URLConnection conn = new URL(URL).openConnection();
+
                 InputStream in = conn.getInputStream();
                 lectura = readStream(in);
             } catch (MalformedURLException e) {
