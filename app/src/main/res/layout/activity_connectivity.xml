@@ -17,7 +17,8 @@
             android:id="@+id/statusText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Estatus: No conectado"
+            android:text="Estatus: Esperando conexión..."
+            android:textColor="#ffff"
             android:layout_centerHorizontal="true"
             android:gravity="center_horizontal"
             android:background="@color/colorRed"
@@ -25,10 +26,14 @@
 
         <Button
             android:id="@+id/testButton"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_width="260dp"
+            android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
+            android:background="@color/colorPrimary"
+            android:elevation="20dp"
+            android:textColor="#ffff"
+            android:textSize="30dp"
             android:text="Imprimir"
             />
         <RadioGroup

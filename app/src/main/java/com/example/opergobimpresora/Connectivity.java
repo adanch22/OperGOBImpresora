@@ -70,6 +70,14 @@ public class Connectivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), URL, Toast.LENGTH_SHORT).show();
+                if (TipoTicket == 1){
+                    claveUsuarioTexto = claveUsuario.getText().toString();
+                    URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD /CodeZPL/"+ claveUsuarioTexto+"/ImprimirCUC.txt";
+                }else{
+                    claveUsuarioTexto = claveUsuario.getText().toString();
+                    URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ claveUsuarioTexto +"/ImprimirCUC.txt";
+                }
+
                 new Thread(new Runnable() {
                     public void run() {
 
@@ -107,21 +115,13 @@ public class Connectivity extends AppCompatActivity {
                     TipoTicket = 1;
                     claveUsuarioTexto = claveUsuario.getText().toString();
                     URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD /CodeZPL/"+ claveUsuarioTexto+"/ImprimirCUC.txt";
-                    Log.d("",URL);
-                    //Toast.makeText(getApplicationContext(), "ticket de comercio: " + URL, Toast.LENGTH_SHORT).show();
-                    // toggleEditField(macAddress, true);
-                   /*
-                    toggleEditField(portNumber, false);
-                    toggleEditField(ipDNSAddress, false);*/
+                    //URL = "http://138.122.99.182/TenaSD.NetEnvironment//CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
+
                 } else {
                     TipoTicket = 2;
                     claveUsuarioTexto = claveUsuario.getText().toString();
-                    URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ claveUsuarioTexto.replace(" ", "")+"/ImprimirCUC.txt";
-                    Log.d("",URL);
-                    //Toast.makeText(getApplicationContext(), "ticket de Transito: "+ URL, Toast.LENGTH_SHORT).show();
-                   /*  toggleEditField(portNumber, true);
-                    toggleEditField(ipDNSAddress, true);*/
-                    // toggleEditField(macAddress, false);
+                    URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ claveUsuarioTexto +"/ImprimirCUC.txt";
+                    //URL = "http://138.122.99.182/TenaSD.NetEnvironment//CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
                 }
             }
         });
@@ -164,6 +164,10 @@ public class Connectivity extends AppCompatActivity {
     }
     private String getMacAddressFieldText() {
         return macAddress.getText().toString();
+    }
+
+    private String getClaveUsuarioFieldText() {
+        return claveUsuario.getText().toString();
     }
 
     //Conectar con impresora
@@ -274,11 +278,17 @@ public class Connectivity extends AppCompatActivity {
             try {
                 //URLConnection conn = new URL("http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/JLCASTIL/ImprimirCUC.txt").openConnection();
                 if (TipoTicket == 1){
-                    URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD/CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
+                   // String UsuarioTexto = claveUsuario.getText().toString();
+                    URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
+                    //URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD/CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
+                    //URL = "http://138.122.99.182/TenaSD.NetEnvironment//CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
                    // Toast.makeText(this, "ticket de comercio", Toast.LENGTH_SHORT).show();
                 }else{
+                   // String UsuarioTexto = claveUsuario.getText().toString();
+                    URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
                     //URLConnection conn = new URL("http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/c/ImprimirCUC.txt").openConnection();
-                    URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ claveUsuarioTexto+"/ImprimirCUC.txt";
+                    //URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ claveUsuarioTexto+"/ImprimirCUC.txt";
+                    //URL = "http://138.122.99.182/Nemi_SD.NetEnvironment//CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
                    // Toast.makeText(this, "ticket de Transito", Toast.LENGTH_SHORT).show() ;
                 }
 
@@ -288,11 +298,11 @@ public class Connectivity extends AppCompatActivity {
                 lectura = readStream(in);
             } catch (MalformedURLException e) {
                 Log.w("", "MALFORMED URL EXCEPTION");
-                lectura = "^XA^PON^PW400^MNN^LL%d^LH0,0^FO30,30^FR^FD"+URL + "^FS^LL30^XZ";
+                lectura = "^XA^PON^PW400^MNN^LL%d^LH0,0^CF0,20^FO30,30^FR^FD"+URL + "^FS^LL30^XZ";
             } catch (IOException e) {
                 Log.w(e.getMessage(), e);
                 //lectura = "^XA^PON^PW400^MNN^LL%d^LH0,0^FO30,30^FR^FDError de Lectura..^FS^LL30^XZ";
-                lectura = "^XA^PON^PW400^MNN^LL%d^LH0,0^FO30,30^FR^FD"+URL + "^FS^LL30^XZ";
+                lectura = "^XA^PON^PW400^MNN^LL%d^LH0,0^CF0,20^FO30,30^FR^FD"+URL + "^FS^LL30^XZ";
             }
 /*
             FileInputStream fileInputStream = null;
