@@ -2,10 +2,15 @@ package com.example.opergobimpresora;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +52,8 @@ public class Connectivity extends AppCompatActivity {
     private Integer TipoTicket = 1;
     public String URL = "";
     private String claveUsuarioTexto;
+
+    private SharedPreferences myPreferences;
     // ------ variables ---------------->
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +61,11 @@ public class Connectivity extends AppCompatActivity {
         setContentView(R.layout.activity_connectivity);
 
         macAddress = (EditText) this.findViewById(R.id.macInput);
-        claveUsuario = (EditText) this.findViewById(R.id.Usuario);
+        //claveUsuario = (EditText) this.findViewById(R.id.Usuario);
         macAddress.setText(SettingsHelper.getBluetoothAddress(this));
 
+
+        myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         statusField = (TextView) this.findViewById(R.id.statusText);
         btRadioButton = (RadioButton) this.findViewById(R.id.bluetoothRadio);
         btRadioButton.setChecked(true);
@@ -69,14 +78,14 @@ public class Connectivity extends AppCompatActivity {
         testButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), URL, Toast.LENGTH_SHORT).show();
+               /* Toast.makeText(getApplicationContext(), URL, Toast.LENGTH_SHORT).show();
                 if (TipoTicket == 1){
                     claveUsuarioTexto = claveUsuario.getText().toString();
                     URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD /CodeZPL/"+ claveUsuarioTexto+"/ImprimirCUC.txt";
                 }else{
                     claveUsuarioTexto = claveUsuario.getText().toString();
                     URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ claveUsuarioTexto +"/ImprimirCUC.txt";
-                }
+                }*/
 
                 new Thread(new Runnable() {
                     public void run() {
@@ -128,6 +137,28 @@ public class Connectivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent (this, OptionsActivity.class);
+            startActivityForResult(intent, 0);
+           //return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     private void toggleEditField(EditText editText, boolean set) {
         /*
          * Note: Disabled EditText fields may still get focus by some other means, and allow text input.
@@ -167,7 +198,8 @@ public class Connectivity extends AppCompatActivity {
     }
 
     private String getClaveUsuarioFieldText() {
-        return claveUsuario.getText().toString();
+        //return claveUsuario.getText().toString();
+        return  myPreferences.getString("USUARIO", "");
     }
 
     //Conectar con impresora

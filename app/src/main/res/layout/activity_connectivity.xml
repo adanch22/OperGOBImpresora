@@ -73,25 +73,6 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/UsuarioText"
-            android:layout_width="fill_parent"
-            android:textSize="20dp"
-            android:layout_height="wrap_content"
-            android:text="Clave de Usuario:"
-            android:layout_weight="1" />
-
-        <EditText
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="50dp"
-            android:tooltipText="Clave de Usuario"
-            android:textColor="@color/cardview_dark_background"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Usuario"
-            />
-
         <RadioGroup
             android:id="@+id/radioGroupTipoApp"
             android:layout_width="fill_parent"
