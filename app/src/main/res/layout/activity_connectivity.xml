@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/statusText"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Estatus: Esperando conexión..."
             android:textColor="#ffff"
@@ -24,36 +24,40 @@
             android:background="@color/colorRed"
             android:textSize="20dp" />
 
-        <Button
-            android:id="@+id/testButton"
-            android:layout_width="260dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:background="@color/colorPrimary"
-            android:elevation="20dp"
-            android:textColor="#ffff"
-            android:textSize="30dp"
-            android:text="Imprimir"
-            />
         <RadioGroup
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/radioGroup"
             android:layout_below="@id/statusText"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/bluetoothRadio"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="20dp"
-                android:text="Conexión: Bluetooth (R)" />
+                android:layout_gravity="center_horizontal"
+                android:textSize="15dp"
+                android:text="Tipo de Conexión: Bluetooth" />
 
         </RadioGroup>
 
-        <LinearLayout
+        <Button
+            android:id="@+id/testButton"
+            android:layout_width="260dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorPrimary"
+            android:elevation="20dp"
+            android:textColor="#ffff"
+            android:textSize="30dp"
+            android:text="Imprimir"
+            />
+
+
+       <!-- <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
@@ -71,9 +75,9 @@
                 android:enabled="false"
                 android:inputType="textNoSuggestions|text"
                 android:layout_weight="1" />
-        </LinearLayout>
+        </LinearLayout>-->
 
-        <RadioGroup
+        <!--<RadioGroup
             android:id="@+id/radioGroupTipoApp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -95,7 +99,7 @@
                 android:textSize="20dp"
                 android:text="Agente" />
 
-        </RadioGroup>
+        </RadioGroup>-->
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

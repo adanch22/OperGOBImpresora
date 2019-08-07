@@ -55,15 +55,23 @@ public class OptionsActivity extends AppCompatActivity {
                 StringinMac = inMac.getText().toString();
                 StringinUsuario = inUsuario.getText().toString();
                 StringinURL = inURL.getText().toString();
-                SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor myEditor = myPreferences.edit();
-                myEditor.putString("MAC",StringinMac );
-                myEditor.putString("USUARIO", StringinUsuario);
-                myEditor.putInt("TIPOTICKET", TipoTicket);
-                myEditor.putString("URL", StringinURL);
-                myEditor.commit();
+                if (inMac.getText().toString().length() == 0 || inUsuario.getText().toString().length() ==0){
+                    Toast.makeText(getApplicationContext(),"Debes registrar campos obligatorios",Toast.LENGTH_LONG).show();
 
-                Toast.makeText(getApplicationContext(),"Se guardó la Configuración",Toast.LENGTH_LONG).show();
+                }else{
+                    SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor myEditor = myPreferences.edit();
+                    myEditor.putString("MAC",StringinMac );
+                    myEditor.putString("USUARIO", StringinUsuario);
+                    myEditor.putInt("TIPOTICKET", TipoTicket);
+                    myEditor.putString("URL", StringinURL);
+                    myEditor.commit();
+
+                    Toast.makeText(getApplicationContext(),"La configuracion se guardó correctamente",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent (getApplicationContext(), Connectivity.class);
+                    startActivityForResult(intent, 0);
+                }
+
 
             }
         });

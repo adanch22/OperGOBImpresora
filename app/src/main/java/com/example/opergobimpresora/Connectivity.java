@@ -49,7 +49,7 @@ public class Connectivity extends AppCompatActivity {
     private Button testButton;
     private FileInputStream fis;
 
-    private Integer TipoTicket = 1;
+    private Integer TipoTicket = 0;
     public String URL = "";
     private String claveUsuarioTexto;
 
@@ -62,7 +62,7 @@ public class Connectivity extends AppCompatActivity {
 
         macAddress = (EditText) this.findViewById(R.id.macInput);
         //claveUsuario = (EditText) this.findViewById(R.id.Usuario);
-        macAddress.setText(SettingsHelper.getBluetoothAddress(this));
+        //macAddress.setText(SettingsHelper.getBluetoothAddress(this));
 
 
         myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -70,33 +70,31 @@ public class Connectivity extends AppCompatActivity {
         btRadioButton = (RadioButton) this.findViewById(R.id.bluetoothRadio);
         btRadioButton.setChecked(true);
         if (btRadioButton.isChecked() == true) {
-            toggleEditField(macAddress, true);
+            //toggleEditField(macAddress, true);
         } else {
-            toggleEditField(macAddress, false);
+            //toggleEditField(macAddress, false);
         }
         testButton = (Button) this.findViewById(R.id.testButton);
         testButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-               /* Toast.makeText(getApplicationContext(), URL, Toast.LENGTH_SHORT).show();
-                if (TipoTicket == 1){
-                    claveUsuarioTexto = claveUsuario.getText().toString();
-                    URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD /CodeZPL/"+ claveUsuarioTexto+"/ImprimirCUC.txt";
-                }else{
-                    claveUsuarioTexto = claveUsuario.getText().toString();
-                    URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ claveUsuarioTexto +"/ImprimirCUC.txt";
-                }*/
+               if (getMacAddressFieldText().equals("") || getClaveUsuarioFieldText().equals("")){
+                   Toast.makeText(getApplicationContext(), "advertencia. Debes realizar la configuración inicial", Toast.LENGTH_LONG).show();
+               }else{
+                   new Thread(new Runnable() {
+                       public void run() {
 
-                new Thread(new Runnable() {
-                    public void run() {
+                           enableTestButton(false);
+                           Looper.prepare();
+                           doConnectionTest();
+                           Looper.loop();
+                           Looper.myLooper().quit();
+                       }
+                   }).start();
+               }
 
-                        enableTestButton(false);
-                        Looper.prepare();
-                        doConnectionTest();
-                        Looper.loop();
-                        Looper.myLooper().quit();
-                    }
-                }).start();
+
+
             }
         });
 
@@ -105,35 +103,14 @@ public class Connectivity extends AppCompatActivity {
 
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.bluetoothRadio) {
-                   toggleEditField(macAddress, true);
-                   /*
-                    toggleEditField(portNumber, false);
-                    toggleEditField(ipDNSAddress, false);*/
+                  // toggleEditField(macAddress, true);
+
                 } else {
-                   /*  toggleEditField(portNumber, true);
-                    toggleEditField(ipDNSAddress, true);*/
-                    toggleEditField(macAddress, false);
+                  //  toggleEditField(macAddress, false);
                 }
             }
         });
 
-        RadioGroup radioGroupTipoApp = (RadioGroup) this.findViewById(R.id.radioGroupTipoApp);
-        radioGroupTipoApp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup radioGroupTipoApp, int checkedId) {
-                if (checkedId == R.id.ComercioRadio) {
-                    TipoTicket = 1;
-                    claveUsuarioTexto = claveUsuario.getText().toString();
-                    URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD /CodeZPL/"+ claveUsuarioTexto+"/ImprimirCUC.txt";
-                    //URL = "http://138.122.99.182/TenaSD.NetEnvironment//CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
-
-                } else {
-                    TipoTicket = 2;
-                    claveUsuarioTexto = claveUsuario.getText().toString();
-                    URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ claveUsuarioTexto +"/ImprimirCUC.txt";
-                    //URL = "http://138.122.99.182/TenaSD.NetEnvironment//CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
-                }
-            }
-        });
 
     }
 
@@ -160,10 +137,6 @@ public class Connectivity extends AppCompatActivity {
 
 
     private void toggleEditField(EditText editText, boolean set) {
-        /*
-         * Note: Disabled EditText fields may still get focus by some other means, and allow text input.
-         *       See http://code.google.com/p/android/issues/detail?id=2771
-         */
         editText.setEnabled(set);
         editText.setFocusable(set);
         editText.setFocusableInTouchMode(set);
@@ -192,9 +165,12 @@ public class Connectivity extends AppCompatActivity {
 
     private boolean isBluetoothSelected() {
         return btRadioButton.isChecked();
+
     }
+
     private String getMacAddressFieldText() {
-        return macAddress.getText().toString();
+        //return macAddress.getText().toString();
+        return  myPreferences.getString("MAC", "");
     }
 
     private String getClaveUsuarioFieldText() {
@@ -202,9 +178,14 @@ public class Connectivity extends AppCompatActivity {
         return  myPreferences.getString("USUARIO", "");
     }
 
+    private int getTipoAppFieldText() {
+        //return claveUsuario.getText().toString();
+        return  myPreferences.getInt("TIPOTICKET", 0);
+    }
+
     //Conectar con impresora
     public ZebraPrinter connect() {
-        setStatus("Conectando...", Color.YELLOW);
+        setStatus("Conectando...", Color.RED);
         printerConnection = null;
         if (isBluetoothSelected()) {
             printerConnection = new BluetoothConnection(getMacAddressFieldText());
@@ -235,7 +216,7 @@ public class Connectivity extends AppCompatActivity {
         if (printerConnection.isConnected()) {
             try {
                 printer = ZebraPrinterFactory.getInstance(printerConnection);
-                setStatus("Buscando Lenguaje de Impresora", Color.YELLOW);
+                setStatus("Buscando Lenguaje de Impresora", Color.GREEN);
                 PrinterLanguage pl = printer.getPrinterControlLanguage();
                 setStatus("Lenguaje " + pl, Color.BLUE);
             } catch (ConnectionException e) {
@@ -260,7 +241,7 @@ public class Connectivity extends AppCompatActivity {
             if (printerConnection != null) {
                 printerConnection.close();
             }
-            setStatus("No Conectado", Color.RED);
+            setStatus("Estatus: Esperando conexión...", Color.RED);
         } catch (ConnectionException e) {
             setStatus("Error! Desconectando", Color.RED);
         } finally {
@@ -309,19 +290,14 @@ public class Connectivity extends AppCompatActivity {
 
             try {
                 //URLConnection conn = new URL("http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/JLCASTIL/ImprimirCUC.txt").openConnection();
+                TipoTicket = getTipoAppFieldText();
                 if (TipoTicket == 1){
-                   // String UsuarioTexto = claveUsuario.getText().toString();
                     URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
-                    //URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD/CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
-                    //URL = "http://138.122.99.182/TenaSD.NetEnvironment//CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
-                   // Toast.makeText(this, "ticket de comercio", Toast.LENGTH_SHORT).show();
-                }else{
+
+                }else if(TipoTicket == 2){
                    // String UsuarioTexto = claveUsuario.getText().toString();
                     URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
-                    //URLConnection conn = new URL("http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/c/ImprimirCUC.txt").openConnection();
-                    //URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ claveUsuarioTexto+"/ImprimirCUC.txt";
-                    //URL = "http://138.122.99.182/Nemi_SD.NetEnvironment//CodeZPL/"+claveUsuarioTexto +"/ImprimirCUC.txt";
-                   // Toast.makeText(this, "ticket de Transito", Toast.LENGTH_SHORT).show() ;
+
                 }
 
                 URLConnection conn = new URL(URL).openConnection();
@@ -330,11 +306,11 @@ public class Connectivity extends AppCompatActivity {
                 lectura = readStream(in);
             } catch (MalformedURLException e) {
                 Log.w("", "MALFORMED URL EXCEPTION");
-                lectura = "^XA^PON^PW400^MNN^LL%d^LH0,0^CF0,20^FO30,30^FR^FD"+URL + "^FS^LL30^XZ";
+                lectura = "^XA^PON^PW400^MNN^LL100^LH0,0^CF0,20^FO30,30^FR^FD"+"Error de lectura en ticket..." + "^FS^LL30^XZ";
             } catch (IOException e) {
                 Log.w(e.getMessage(), e);
                 //lectura = "^XA^PON^PW400^MNN^LL%d^LH0,0^FO30,30^FR^FDError de Lectura..^FS^LL30^XZ";
-                lectura = "^XA^PON^PW400^MNN^LL%d^LH0,0^CF0,20^FO30,30^FR^FD"+URL + "^FS^LL30^XZ";
+                lectura = "^XA^PON^PW400^MNN^LL100^LH0,0^CF0,20^FO30,30^FR^FD"+"Error de lectura en ticket..."  + "^FS^LL30^XZ";
             }
 /*
             FileInputStream fileInputStream = null;
