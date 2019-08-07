@@ -35,6 +35,7 @@ public class OptionsActivity extends AppCompatActivity {
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         StringinMac = myPreferences.getString("MAC","");
         StringinUsuario = myPreferences.getString("USUARIO", "");
+        TipoTicket = 0;
         TipoTicket = myPreferences.getInt("TIPOTICKET", 0);
         StringinURL = myPreferences.getString("URL", "");
         inMac.setText(StringinMac);
@@ -55,9 +56,10 @@ public class OptionsActivity extends AppCompatActivity {
                 StringinMac = inMac.getText().toString();
                 StringinUsuario = inUsuario.getText().toString();
                 StringinURL = inURL.getText().toString();
-                if (inMac.getText().toString().length() == 0 || inUsuario.getText().toString().length() ==0){
-                    Toast.makeText(getApplicationContext(),"Debes registrar campos obligatorios",Toast.LENGTH_LONG).show();
-
+                if (inMac.getText().toString().length() == 0){
+                    Toast.makeText(getApplicationContext(),"Debes ingresar dirección MAC",Toast.LENGTH_LONG).show();
+                }else if(inUsuario.getText().toString().length() ==0) {
+                    Toast.makeText(getApplicationContext(),"Debes ingresar clave de usuario",Toast.LENGTH_LONG).show();
                 }else{
                     SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor myEditor = myPreferences.edit();
@@ -68,7 +70,7 @@ public class OptionsActivity extends AppCompatActivity {
                     myEditor.commit();
 
                     Toast.makeText(getApplicationContext(),"La configuracion se guardó correctamente",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent (getApplicationContext(), Connectivity.class);
+                    Intent intent = new Intent (getApplicationContext(), MainActivity.class);
                     startActivityForResult(intent, 0);
                 }
 
