@@ -19,7 +19,7 @@ public class OptionsActivity extends AppCompatActivity {
     private EditText inMac, inUsuario, inURL;
     private RadioButton ComercioRadio, MultaRadio;
     private String StringinMac, StringinUsuario, StringinURL;
-    private int TipoTicket;
+    private int TipoTicket=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +32,14 @@ public class OptionsActivity extends AppCompatActivity {
         inUsuario = (EditText) findViewById(R.id.InUsuario);
         ComercioRadio = (RadioButton) findViewById(R.id.inComercioRadio);
         MultaRadio = (RadioButton) findViewById(R.id.inTransitoRadio);
+
+
+
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor myEditor = myPreferences.edit();
+        myEditor.putString("URL","http://201.131.20.44/Prueba_Reynosa/" );
+        myEditor.commit();
+
         StringinMac = myPreferences.getString("MAC","");
         StringinUsuario = myPreferences.getString("USUARIO", "");
         TipoTicket = 0;
@@ -60,6 +67,8 @@ public class OptionsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Debes ingresar dirección MAC",Toast.LENGTH_LONG).show();
                 }else if(inUsuario.getText().toString().length() ==0) {
                     Toast.makeText(getApplicationContext(),"Debes ingresar clave de usuario",Toast.LENGTH_LONG).show();
+                }else if(TipoTicket < 1) {
+                    Toast.makeText(getApplicationContext(),"Debes seleccionar tipo de aplicación",Toast.LENGTH_LONG).show();
                 }else{
                     SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor myEditor = myPreferences.edit();

@@ -114,15 +114,14 @@
             <EditText
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="0dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight=" 0dp"
                 android:tooltipText="URL Base*"
                 android:textColor="@color/cardview_dark_background"
-                android:text="http://201.131.20.44/Prueba_Reynosa/"
                 android:textSize="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/InURL"
-                android:lines="1"
+                android:lines="2"
                 />
             <Button
                 android:id="@+id/InGuardar"
