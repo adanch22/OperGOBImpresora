@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                if (getMacAddressFieldText().length()== 0 || getClaveUsuarioFieldText().length() == 0){
-                   Toast.makeText(getApplicationContext(), "advertencia. Debes realizar la configuración inicial", Toast.LENGTH_LONG).show();
+                   Toast.makeText(getApplicationContext(), "Advertencia. Debes realizar la configuración inicial", Toast.LENGTH_LONG).show();
                }else{
                    new Thread(new Runnable() {
                        public void run() {

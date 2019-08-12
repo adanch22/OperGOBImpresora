@@ -29,8 +29,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioGroup"
             android:layout_below="@id/statusText"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <RadioButton
@@ -39,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textSize="15dp"
-                android:text="Tipo de Conexión: Bluetooth" />
+                android:text="Conexión: Bluetooth" />
 
         </RadioGroup>
 
@@ -49,7 +50,7 @@
             android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/btnanimation"
             android:elevation="20dp"
             android:textColor="#ffff"
             android:textSize="30dp"
@@ -100,6 +101,6 @@
                 android:text="Agente" />
 
         </RadioGroup>-->
-
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

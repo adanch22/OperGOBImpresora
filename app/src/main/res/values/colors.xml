@@ -3,9 +3,14 @@
     <color name="colorPrimary">#F15D22</color>
     <color name="colorPrimaryDark">#DB5220</color>
     <color name="colorAccent">#F15D22</color>
+    <color name="colorOrange900">#E65100</color>
+    <color name="colorOrange700">#FF6D00</color>
+    <color name="colorAmbar900">#FF6F00</color>
     <color name="colorRed">#E53935</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorgray100">#F5F5F5</color>
+    <color name="colorgray300">#E0E0E0</color>
 
 
 </resources>

@@ -19,6 +19,7 @@
             android:layout_marginRight="10dp"
             tools:ignore="MissingConstraints"
             android:orientation="vertical">
+<!--
 
             <TextView
                 android:layout_width="match_parent"
@@ -29,6 +30,7 @@
                 android:textStyle="bold"
                 android:gravity="center_horizontal"
                 android:text="Configuración"/>
+-->
 
             <TextView
                 android:id="@+id/macAddressText"
@@ -90,7 +92,7 @@
                     android:layout_marginTop="5dp"
                     android:textColor="@color/colorBlack"
                     android:textSize="15dp"
-                    android:text="CUCMóvil" />
+                    android:text="CUC Móvil" />
                 <RadioButton
                     android:id="@+id/inTransitoRadio"
                     android:layout_height="wrap_content"
@@ -98,7 +100,7 @@
                     android:layout_marginTop="5dp"
                     android:textColor="@color/colorBlack"
                     android:textSize="15dp"
-                    android:text="MTMóvil" />
+                    android:text="MT Móvil" />
 
             </RadioGroup>
 
@@ -114,7 +116,7 @@
             <EditText
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="0dp"
-                android:layout_marginRight=" 0dp"
+                android:layout_marginRight="0dp"
                 android:tooltipText="URL Base*"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="15dp"
@@ -130,9 +132,19 @@
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/btnanimation"
                 android:textSize="30dp"
                 android:text="Guardar"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="Versiòn 05.01.002"
+                android:textSize="14dp"
+                android:textColor="@color/colorBlack"/>
         </LinearLayout>
 
     </ScrollView>

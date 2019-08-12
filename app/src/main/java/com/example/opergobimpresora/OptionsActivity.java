@@ -33,12 +33,15 @@ public class OptionsActivity extends AppCompatActivity {
         ComercioRadio = (RadioButton) findViewById(R.id.inComercioRadio);
         MultaRadio = (RadioButton) findViewById(R.id.inTransitoRadio);
 
-
-
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor myEditor = myPreferences.edit();
-        myEditor.putString("URL","http://201.131.20.44/Prueba_Reynosa/" );
-        myEditor.commit();
+        /*
+        if (inURL.getText().toString().length() == 0){
+            myEditor.putString("URL","http://201.131.20.44/Prueba_Reynosa/" );
+            myEditor.commit();
+            //Toast.makeText(getApplicationContext(),"Debes ingresar dirección MAC",Toast.LENGTH_LONG).show();
+        }*/
+
 
         StringinMac = myPreferences.getString("MAC","");
         StringinUsuario = myPreferences.getString("USUARIO", "");
