@@ -297,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
                 //URLConnection conn = new URL("http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/JLCASTIL/ImprimirCUC.txt").openConnection();
                 TipoTicket = getTipoAppFieldText();
                 URLBASE = getURLBaseFieldText();
+                String UrlBaseString = URLBASE.replace(" ", "");
                 if (TipoTicket == 1){
                     if (URLBASE.length() == 0){
                         URL = "http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";

@@ -20,6 +20,7 @@ public class OptionsActivity extends AppCompatActivity {
     private RadioButton ComercioRadio, MultaRadio;
     private String StringinMac, StringinUsuario, StringinURL;
     private int TipoTicket=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +36,13 @@ public class OptionsActivity extends AppCompatActivity {
 
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor myEditor = myPreferences.edit();
-        /*
+
         if (inURL.getText().toString().length() == 0){
-            myEditor.putString("URL","http://201.131.20.44/Prueba_Reynosa/" );
-            myEditor.commit();
+            inURL.setText("http://201.131.20.44/Prueba_Reynosa/");
+            //myEditor.putString("URL","http://201.131.20.44/Prueba_Reynosa/" );
+            //myEditor.commit();
             //Toast.makeText(getApplicationContext(),"Debes ingresar dirección MAC",Toast.LENGTH_LONG).show();
-        }*/
+        }
 
 
         StringinMac = myPreferences.getString("MAC","");
@@ -58,8 +60,6 @@ public class OptionsActivity extends AppCompatActivity {
             ComercioRadio.setChecked(false);
             MultaRadio.setChecked(true);
         }
-
-
 
         testButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -90,6 +90,7 @@ public class OptionsActivity extends AppCompatActivity {
             }
         });
 
+
         RadioGroup radioGroupTipoApp = (RadioGroup) this.findViewById(R.id.inradioGroupTipoApp);
         radioGroupTipoApp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup radioGroupTipoApp, int checkedId) {
@@ -103,4 +104,12 @@ public class OptionsActivity extends AppCompatActivity {
             }
         });
     }
+    // -------- evento Button regresar --------------------->
+    public void onBackPressed(){
+        Toast.makeText(getApplicationContext(),"Debes guardar la configuración",Toast.LENGTH_LONG).show();
+        // do something here and don't write super.onBackPressed()
+
+    }
+    // -------- evento Button regresar --------------------->
+
 }

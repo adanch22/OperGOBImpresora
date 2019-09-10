@@ -3,4 +3,5 @@
     <string name="action_settings">Configuración</string>
     <string name="app_name_opction">Configuración</string>
     <string name="app_name_main">Impresión</string>
+    <string name="action_test"> Test con Impresora Nueva </string>
 </resources>
