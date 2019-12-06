@@ -17,9 +17,9 @@ public class OptionsActivity extends AppCompatActivity {
 
     private Button testButton;
     private EditText inMac, inUsuario, inURL;
-    private RadioButton ComercioRadio, MultaRadio;
+    //private RadioButton ComercioRadio, MultaRadio;
     private String StringinMac, StringinUsuario, StringinURL;
-    private int TipoTicket=0;
+    //private int TipoTicket=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +31,8 @@ public class OptionsActivity extends AppCompatActivity {
         inMac = (EditText) findViewById(R.id.InMac);
         inURL = (EditText) findViewById(R.id.InURL);
         inUsuario = (EditText) findViewById(R.id.InUsuario);
-        ComercioRadio = (RadioButton) findViewById(R.id.inComercioRadio);
-        MultaRadio = (RadioButton) findViewById(R.id.inTransitoRadio);
+        //ComercioRadio = (RadioButton) findViewById(R.id.inComercioRadio);
+        //MultaRadio = (RadioButton) findViewById(R.id.inTransitoRadio);
 
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor myEditor = myPreferences.edit();
@@ -47,19 +47,19 @@ public class OptionsActivity extends AppCompatActivity {
 
         StringinMac = myPreferences.getString("MAC","");
         StringinUsuario = myPreferences.getString("USUARIO", "");
-        TipoTicket = 0;
-        TipoTicket = myPreferences.getInt("TIPOTICKET", 0);
+        //TipoTicket = 0;
+       // TipoTicket = myPreferences.getInt("TIPOTICKET", 0);
         StringinURL = myPreferences.getString("URL", "");
         inMac.setText(StringinMac);
         inUsuario.setText(StringinUsuario);
         inURL.setText(StringinURL);
-        if(TipoTicket == 1){
+/*      if(TipoTicket == 1){
             ComercioRadio.setChecked(true);
             MultaRadio.setChecked(false);
         }else if(TipoTicket == 2){
             ComercioRadio.setChecked(false);
             MultaRadio.setChecked(true);
-        }
+        }*/
 
         testButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -70,14 +70,13 @@ public class OptionsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Debes ingresar dirección MAC",Toast.LENGTH_LONG).show();
                 }else if(inUsuario.getText().toString().length() ==0) {
                     Toast.makeText(getApplicationContext(),"Debes ingresar clave de usuario",Toast.LENGTH_LONG).show();
-                }else if(TipoTicket < 1) {
-                    Toast.makeText(getApplicationContext(),"Debes seleccionar tipo de aplicación",Toast.LENGTH_LONG).show();
+
                 }else{
                     SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor myEditor = myPreferences.edit();
                     myEditor.putString("MAC",StringinMac );
                     myEditor.putString("USUARIO", StringinUsuario);
-                    myEditor.putInt("TIPOTICKET", TipoTicket);
+                    //myEditor.putInt("TIPOTICKET", TipoTicket); //Se elimino el tipo de Ticket para introducir la URLBase como en la APP OperGOB
                     myEditor.putString("URL", StringinURL);
                     myEditor.commit();
 
@@ -85,13 +84,16 @@ public class OptionsActivity extends AppCompatActivity {
                     Intent intent = new Intent (getApplicationContext(), MainActivity.class);
                     startActivityForResult(intent, 0);
                 }
-
+                /*
+                    }else if(TipoTicket < 1) {
+                    Toast.makeText(getApplicationContext(),"Debes seleccionar tipo de aplicación",Toast.LENGTH_LONG).show();
+                */
 
             }
         });
 
 
-        RadioGroup radioGroupTipoApp = (RadioGroup) this.findViewById(R.id.inradioGroupTipoApp);
+       /* RadioGroup radioGroupTipoApp = (RadioGroup) this.findViewById(R.id.inradioGroupTipoApp);
         radioGroupTipoApp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup radioGroupTipoApp, int checkedId) {
                 if (checkedId == R.id.inComercioRadio) {
@@ -102,7 +104,7 @@ public class OptionsActivity extends AppCompatActivity {
 
                 }
             }
-        });
+        });*/
     }
     // -------- evento Button regresar --------------------->
     public void onBackPressed(){

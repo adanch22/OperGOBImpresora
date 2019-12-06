@@ -70,15 +70,15 @@
                 android:lines="1"
                 />
 
-            <TextView
+          <!--  <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:textSize="15dp"
                 android:textColor="@color/colorBlack"
-                android:text="Aplicación Móvil OperGOB*"/>
+                android:text="Aplicación Móvil OperGOB*"/>-->
 
-            <RadioGroup
+            <!--<RadioGroup
                 android:id="@+id/inradioGroupTipoApp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                     android:textSize="15dp"
                     android:text="MT Móvil" />
 
-            </RadioGroup>
+            </RadioGroup>-->
 
             <TextView
                 android:id="@+id/UrlText"
@@ -142,8 +142,8 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:text="Versiòn 05.01.002"
-                android:textSize="14dp"
+                android:text="Versión 05.01.003"
+                android:textSize="13dp"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>
 

@@ -298,7 +298,12 @@ public class MainActivity extends AppCompatActivity {
                 TipoTicket = getTipoAppFieldText();
                 URLBASE = getURLBaseFieldText();
                 String UrlBaseString = URLBASE.replace(" ", "");
-                if (TipoTicket == 1){
+                if (URLBASE.length() == 0){
+                    URL = "http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
+                }else{
+                    URL = URLBASE +"/CodeZPL/" + getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
+                }
+                /*if (TipoTicket == 1){
                     if (URLBASE.length() == 0){
                         URL = "http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
                         //URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
@@ -312,10 +317,9 @@ public class MainActivity extends AppCompatActivity {
                     }else{
                         URL = URLBASE + "MTMovil/CodeZPL/"+ getClaveUsuarioFieldText() + "/ImprimirCUC.txt";
                     }
-                }
+                }*/
 
                 URLConnection conn = new URL(URL).openConnection();
-
                 InputStream in = conn.getInputStream();
                 lectura = readStream(in);
             } catch (MalformedURLException e) {
