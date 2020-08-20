@@ -28,6 +28,7 @@ import com.zebra.sdk.printer.ZebraPrinter;
 import com.zebra.sdk.printer.ZebraPrinterFactory;
 import com.zebra.sdk.printer.ZebraPrinterLanguageUnknownException;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Integer TipoTicket = 0;
     public String URL = "", URLBASE="";
+
     private String claveUsuarioTexto;
 
     private SharedPreferences myPreferences;
@@ -276,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                 setStatus(friendlyName, Color.MAGENTA);
                 DemoSleeper.sleep(500);
             }
-        } catch (ConnectionException e) {
+        } catch (ConnectionException | IOException e) {
             setStatus(e.getMessage(), Color.RED);
         } finally {
             disconnect();
@@ -284,15 +287,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private byte[] getConfigLabel() {
+    private byte[] getConfigLabel() throws IOException {
         PrinterLanguage printerLanguage = printer.getPrinterControlLanguage();
 
         byte[] configLabel = null;
 
         if (printerLanguage == PrinterLanguage.ZPL) {
             //String texto = "^XA^FO17,15^ADN, 11, 12^FD VACIO...^FS^XZ";
-            String lectura = "";//"^XA^FO15,15^ADN, 10, 10^FD ERROR DE LECTURA(M.INTERNA)...^FS^XZ";
+            String lectura = "^XA^FO15,15^ADN, 10, 10^FD ERROR DE LECTURA(M.INTERNA)...^FS^XZ";
 
+            /*TipoTicket = getTipoAppFieldText();
+            URLBASE = getURLBaseFieldText();
+            String UrlBaseString = URLBASE.replace(" ", "");
+            if (URLBASE.length() == 0){
+                URL = "http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
+            }else{
+                URL = URLBASE +"CodeZPL/" + getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
+            }
+            URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD/CodeZPL/ACHAVEZ/ImprimirCUC.txt";
+            URL urlTenaSD = new URL(URL);
+            HttpURLConnection urlConnection = (HttpURLConnection) urlTenaSD.openConnection();
+            try {
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                lectura =  readStream(in);
+            } finally {
+                urlConnection.disconnect();
+            }*/
             try {
                 //URLConnection conn = new URL("http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/JLCASTIL/ImprimirCUC.txt").openConnection();
                 TipoTicket = getTipoAppFieldText();
@@ -301,34 +321,22 @@ public class MainActivity extends AppCompatActivity {
                 if (URLBASE.length() == 0){
                     URL = "http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
                 }else{
-                    URL = URLBASE +"/CodeZPL/" + getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
+                    URL = URLBASE +"CodeZPL/" + getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
+
                 }
-                /*if (TipoTicket == 1){
-                    if (URLBASE.length() == 0){
-                        URL = "http://138.122.99.182/TenaSD.NetEnvironment/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
-                        //URL = "http://201.131.20.44/Prueba_Reynosa/TenaSD/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
-                    }else{
-                        URL = URLBASE +"TenaSD/CodeZPL/" + getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
-                    }
-
-                }else if(TipoTicket == 2){
-                    if (URLBASE.length() == 0){
-                        //URL = "http://201.131.20.44/Prueba_Reynosa/MTMovil/CodeZPL/"+ getClaveUsuarioFieldText()+"/ImprimirCUC.txt";
-                    }else{
-                        URL = URLBASE + "MTMovil/CodeZPL/"+ getClaveUsuarioFieldText() + "/ImprimirCUC.txt";
-                    }
-                }*/
-
+                URL urlTenaSD = new URL(URL);
                 URLConnection conn = new URL(URL).openConnection();
                 InputStream in = conn.getInputStream();
                 lectura = readStream(in);
             } catch (MalformedURLException e) {
                 Log.w("", "MALFORMED URL EXCEPTION");
-                lectura = "^XA^PON^PW400^MNN^LL200^LH0,0^CF0,20^FO30,30^FR^FD"+"Error de lectura en ticket..." + "^FS^LL30^XZ";
+                //lectura = "^XA^PON^PW400^MNN^LL200^LH0,0^CF0,20^FO30,30^FR^FD"+"Error de lectura en ticket, favor de revisar conexión" + "^FS^LL30^XZ";
+                lectura = "^XA^PON^PW400^MNN^LL200^LH0,0^CF0,20^FO30,30^FR^FD"+ URL+ "^FS^LL30^XZ";
             } catch (IOException e) {
                 Log.w(e.getMessage(), e);
                 //lectura = "^XA^PON^PW400^MNN^LL%d^LH0,0^FO30,30^FR^FDError de Lectura..^FS^LL30^XZ";
-                lectura = "^XA^PON^PW400^MNN^LL200^LH0,0^CF0,20^FO30,30^FR^FD"+"Error de lectura en ticket..."  + "^FS^LL30^XZ";
+                //lectura = "^XA^PON^PW400^MNN^LL200^LH0,0^CF0,20^FO30,30^FR^FD"+"Error de lectura en ticket, favor de revisar conexión" + "^FS^LL30^XZ";
+                lectura = "^XA^PON^PW400^MNN^LL200^LH0,0^CF0,20^FO30,30^FR^FD"+ URL+ "^FS^LL30^XZ";
             }
 /*
             FileInputStream fileInputStream = null;

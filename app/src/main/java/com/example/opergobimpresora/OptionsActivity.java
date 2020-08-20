@@ -20,6 +20,9 @@ public class OptionsActivity extends AppCompatActivity {
     //private RadioButton ComercioRadio, MultaRadio;
     private String StringinMac, StringinUsuario, StringinURL;
     //private int TipoTicket=0;
+    private RadioButton btRadioButton;
+    private  RadioButton btRadioButton2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,43 @@ public class OptionsActivity extends AppCompatActivity {
         inUsuario = (EditText) findViewById(R.id.InUsuario);
         //ComercioRadio = (RadioButton) findViewById(R.id.inComercioRadio);
         //MultaRadio = (RadioButton) findViewById(R.id.inTransitoRadio);
+
+        btRadioButton = (RadioButton) this.findViewById(R.id.Disabled);
+        btRadioButton2 = (RadioButton) this.findViewById(R.id.Enabled);
+        RadioGroup radioGroup = (RadioGroup) this.findViewById(R.id.radioGroup2);
+        btRadioButton.setChecked(true);
+        if (btRadioButton.isChecked() == true) {
+            inMac.setEnabled(false);
+            inURL.setEnabled(false);
+            inUsuario.setEnabled(false);
+        } else {
+            inMac.setEnabled(true);
+            inURL.setEnabled(true);
+            inUsuario.setEnabled(true);
+            //toggleEditField(macAddress, false);
+        }
+
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.Enabled) {
+                    if (btRadioButton.isChecked() == true) {
+                        inMac.setEnabled(false);
+                        inURL.setEnabled(false);
+                        inUsuario.setEnabled(false);
+                    } else {
+                        inMac.setEnabled(true);
+                        inURL.setEnabled(true);
+                        inUsuario.setEnabled(true);
+                        //toggleEditField(macAddress, false);
+                    }
+
+                } else {
+                    //  toggleEditField(macAddress, false);
+                }
+            }
+        });
 
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor myEditor = myPreferences.edit();

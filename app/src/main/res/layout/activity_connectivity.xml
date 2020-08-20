@@ -57,8 +57,21 @@
             android:text="Imprimir"
             />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="10dp">
 
-       <!-- <LinearLayout
+        </LinearLayout>
+        <TextView
+            android:id="@+id/versionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Ver. 05.01.004"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="12dp"
+            tools:ignore="MissingConstraints" />
+        <!-- <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
@@ -102,5 +115,7 @@
 
         </RadioGroup>-->
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

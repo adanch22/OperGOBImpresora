@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,8 +31,44 @@
                 android:textStyle="bold"
                 android:gravity="center_horizontal"
                 android:text="Configuración"/>
--->
 
+-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Seleccione para editar">
+
+                </TextView>
+                <RadioGroup
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioGroup2"
+                    android:layout_below="@id/statusText"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="left"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/Disabled"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textSize="14dp"
+                        android:text="Bloqueado" />
+                    <RadioButton
+                        android:id="@+id/Enabled"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textSize="14dp"
+                        android:text="Editar confgiuración" />
+
+                </RadioGroup>
+
+            </LinearLayout>
             <TextView
                 android:id="@+id/macAddressText"
                 android:layout_width="match_parent"
@@ -136,15 +173,15 @@
                 android:textSize="30dp"
                 android:text="Guardar"/>
 
-            <TextView
+           <!-- <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:text="Versión 05.01.003"
+                android:text="@string/versi_n_05_01_003"
                 android:textSize="13dp"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"/>-->
         </LinearLayout>
 
     </ScrollView>
