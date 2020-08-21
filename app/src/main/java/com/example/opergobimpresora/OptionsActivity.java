@@ -11,18 +11,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 public class OptionsActivity extends AppCompatActivity {
 
     private Button testButton;
-    private EditText inMac, inUsuario, inURL;
+    public EditText inMac, inUsuario, inURL;
     //private RadioButton ComercioRadio, MultaRadio;
-    private String StringinMac, StringinUsuario, StringinURL;
+    public String StringinMac, StringinUsuario, StringinURL;
     //private int TipoTicket=0;
-    private RadioButton btRadioButton;
-    private  RadioButton btRadioButton2;
-
+    public RadioButton btRadioButton;
+    public  RadioButton btRadioButton2;
+    public Switch inSwich;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,43 +38,19 @@ public class OptionsActivity extends AppCompatActivity {
         //ComercioRadio = (RadioButton) findViewById(R.id.inComercioRadio);
         //MultaRadio = (RadioButton) findViewById(R.id.inTransitoRadio);
 
-        btRadioButton = (RadioButton) this.findViewById(R.id.Disabled);
-        btRadioButton2 = (RadioButton) this.findViewById(R.id.Enabled);
-        RadioGroup radioGroup = (RadioGroup) this.findViewById(R.id.radioGroup2);
-        btRadioButton.setChecked(true);
-        if (btRadioButton.isChecked() == true) {
-            inMac.setEnabled(false);
-            inURL.setEnabled(false);
-            inUsuario.setEnabled(false);
-        } else {
-            inMac.setEnabled(true);
+        // --------Swicth ----------->
+        inSwich = (Switch) findViewById(R.id.switch1);
+        inSwich.setChecked(false);
+        if(inSwich.isChecked()) {
             inURL.setEnabled(true);
             inUsuario.setEnabled(true);
-            //toggleEditField(macAddress, false);
+            inMac.setEnabled(true);
+        }else{
+            inURL.setEnabled(false);
+            inUsuario.setEnabled(false);
+            inMac.setEnabled(false);
         }
-
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.Enabled) {
-                    if (btRadioButton.isChecked() == true) {
-                        inMac.setEnabled(false);
-                        inURL.setEnabled(false);
-                        inUsuario.setEnabled(false);
-                    } else {
-                        inMac.setEnabled(true);
-                        inURL.setEnabled(true);
-                        inUsuario.setEnabled(true);
-                        //toggleEditField(macAddress, false);
-                    }
-
-                } else {
-                    //  toggleEditField(macAddress, false);
-                }
-            }
-        });
-
+        // --------Swicth ----------->
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor myEditor = myPreferences.edit();
 
@@ -153,5 +130,19 @@ public class OptionsActivity extends AppCompatActivity {
 
     }
     // -------- evento Button regresar --------------------->
+    public void Onclick(View view) {
+        if (view.getId()== R.id.switch1){
+            if(inSwich.isChecked()) {
+                inMac.setEnabled(true);
+                inURL.setEnabled(true);
+                inUsuario.setEnabled(true);
+            }else{
+                inURL.setEnabled(false);
+                inUsuario.setEnabled(false);
+                inMac.setEnabled(false);
+            }
+        }
+    }
+
 
 }
