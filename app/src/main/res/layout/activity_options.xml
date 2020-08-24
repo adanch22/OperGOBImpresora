@@ -36,48 +36,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorgray100">
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Habilitar campos"
+                    android:textSize="17dp"
+                    android:textColor="@color/colorBlack"
+                    android:onClick="Onclick"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-<!--                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Seleccione para editar">
-
-                </TextView>-->
-                <!--<RadioGroup
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/radioGroup2"
-                    android:layout_below="@id/statusText"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="left"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:id="@+id/Disabled"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:textSize="14dp"
-                        android:text="Bloqueado" />
-                    <RadioButton
-                        android:id="@+id/Enabled"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:textSize="14dp"
-                        android:text="Editar confgiuración" />
-
-                </RadioGroup>-->
-
-
-
             </LinearLayout>
-
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Habilitar"
-                android:onClick="Onclick"/>
             <TextView
                 android:id="@+id/macAddressText"
                 android:layout_width="match_parent"
@@ -91,9 +65,11 @@
                 android:id="@+id/InMac"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:enabled="true"
                 android:layout_marginRight="50dp"
-                android:inputType="textNoSuggestions|text" />
+                android:enabled="true"
+                android:hint="00000000"
+                android:inputType="text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
                 android:id="@+id/UsuarioText"
@@ -106,15 +82,18 @@
 
             <EditText
                 android:id="@+id/InUsuario"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="50dp"
-                android:tooltipText="Clave de Usuario"
-                android:textColor="@color/cardview_dark_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="50dp"
+                android:enabled="true"
+                android:hint="OPERGOB"
+                android:inputType="text"
                 android:lines="1"
-                />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/cardview_dark_background"
+                android:tooltipText="Clave de Usuario" />
 
           <!--  <TextView
                 android:layout_width="match_parent"
@@ -156,31 +135,44 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textSize="15dp"
+                android:enabled="true"
                 android:textColor="@color/colorBlack"
                 android:text="URL Base*" />
 
             <EditText
-                android:layout_marginTop="5dp"
+                android:id="@+id/InURL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="0dp"
-                android:tooltipText="URL Base*"
+                android:hint="http://201.134.12.55/TenaSD/"
+                android:inputType="text"
+                android:lines="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/InURL"
-                android:lines="2"
-                />
+                android:textStyle="normal"
+                android:tooltipText="Escriba la URL donde está instalado el Módulo*" />
+
             <Button
                 android:id="@+id/InGuardar"
-                android:layout_width="match_parent"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/colorWhite"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/btnanimation"
-                android:textSize="30dp"
-                android:text="Guardar"/>
+                android:paddingStart="10dip"
+                android:paddingLeft="10dip"
+                android:paddingEnd="10dip"
+                android:paddingRight="10dip"
+                android:selectAllOnFocus="false"
+                android:shadowColor="#979797"
+                android:shadowRadius="5"
+                android:text="Guardar"
+                android:textColor="@color/colorWhite"
+                android:textSize="30dp" />
 
            <!-- <TextView
                 android:layout_width="match_parent"
