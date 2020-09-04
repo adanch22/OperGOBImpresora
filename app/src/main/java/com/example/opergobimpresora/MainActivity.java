@@ -325,7 +325,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 URL urlTenaSD = new URL(URL);
-                URLConnection conn = new URL(URL).openConnection();
+                URLConnection conn = urlTenaSD.openConnection();
+                //URLConnection conn = new URL(URL).openConnection();
                 InputStream in = conn.getInputStream();
                 lectura = readStream(in);
             } catch (MalformedURLException e) {
